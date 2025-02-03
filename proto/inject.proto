@@ -1,0 +1,23 @@
+syntax = "proto3";
+import "file_info.proto";
+
+package cursed_archive;
+
+
+message UploadFileRequest {
+    message File {
+        string file_path = 1;
+        // Binary blob of the file
+        bytes file_data = 2;
+    }
+
+    File file = 1;
+}
+
+message UploadFileResponse {
+    FileInfo file_info = 1;
+}
+
+service FileInjectService {
+    rpc UploadFile (UploadFileRequest) returns (UploadFileResponse);
+}
