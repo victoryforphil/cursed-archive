@@ -3,7 +3,7 @@ use pretty_env_logger;
 use tonic::transport::Server;
 
 pub mod proto;
-use proto::{FileInjectServiceImpl, FileInjectServiceServer};
+use proto::{FileInjectServiceImpl, cursed_archive::file_inject_service_server::FileInjectServiceServer};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

@@ -3,21 +3,25 @@ import "file_info.proto";
 
 package cursed_archive;
 
-
-message UploadFileRequest {
-    message File {
-        string file_path = 1;
-        // Binary blob of the file
-        bytes file_data = 2;
-    }
-
-    File file = 1;
+message FileChunk {
+    // First message must include these
+    string file_path = 1;
+    uint64 total_size = 2;
+    
+    // The actual chunk data
+    bytes chunk_data = 3;
+    uint64 offset = 4;  // Position in the file
+    uint64 bytes_sent = 5;  // Total bytes sent so far
 }
 
-message UploadFileResponse {
+message UploadProgress {
     FileInfo file_info = 1;
+    uint64 bytes_received = 2;
+    uint64 total_size = 3;
+    bool complete = 4;
 }
 
 service FileInjectService {
-    rpc UploadFile (UploadFileRequest) returns (UploadFileResponse);
+    // Stream file chunks from client, get progress updates from server
+    rpc UploadFile(stream FileChunk) returns (stream UploadProgress);
 }
